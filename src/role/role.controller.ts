@@ -1,17 +1,17 @@
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
-import { Controller, Get, Patch } from '@nestjs/common';
+import { Controller, Delete, Get, Patch } from '@nestjs/common';
 import { Post } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { RoleService } from './role.service';
 
-@ApiTags('Auth')
-@Controller('auth')
+@ApiTags('Roles')
+@Controller('roles')
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Creates Role',
+    summary: 'Create Role',
   })
   @Post()
   @UsePipes()
@@ -37,7 +37,7 @@ export class RoleController {
   @ApiOperation({
     summary: 'delete role',
   })
-  @Patch()
+  @Delete()
   @UsePipes()
   async deleteRole() {}
 }
