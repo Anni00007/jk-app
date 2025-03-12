@@ -41,3 +41,27 @@ export const createUserSchema = Joi.object({
     })
     lastName: string;
   }
+
+
+  export const loginUserSchema = Joi.object({
+    email:Joi.string().email().required(),
+    password: Joi.string().required()
+  })
+
+export class LoginUserDto {
+  @ApiProperty({
+    description: 'User email',
+    example: 'xyz@xyz.com',
+    required: true,
+    type: String,
+  })
+  email: string;
+
+  @ApiProperty({
+    description: 'password',
+    example: 'Pass@123',
+    required: false,
+    type: String,
+  })
+  password: string;
+}

@@ -26,7 +26,7 @@ export class AtGuard extends AuthGuard('jwt') {
   }
 
   private isPublicRoute(url: string): boolean {
-    const publicRoutes = ['/auth/login', '/auth/create', '/auth/logout'];
+    const publicRoutes = ['/auth/login', '/auth/create'];
     return publicRoutes.includes(url);
   }
 }

@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { Public } from 'src/decorators/public.decorators';
 import { ResponseService } from 'src/response/response.service';
 import { JoiValidationPipe } from 'src/utils/joi-validation.interface';
-import { CreateUserDto, createUserSchema } from './auth.dto';
+import { CreateUserDto, createUserSchema, LoginUserDto, loginUserSchema } from './auth.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -30,8 +30,12 @@ export class AuthController {
     summary: 'Login for existing user and returns token',
   })
   @Post('login')
-  @UsePipes()
-  async login() {}
+  @UsePipes(new JoiValidationPipe(loginUserSchema, "body"))
+  async login(@Body() loginUserDto:LoginUserDto) {
+    const data = await this.authService.login(loginUserDto)
+    return  ResponseService.buildResponse(data)
+
+  }
 
   @ApiBearerAuth()
   @ApiOperation({
@@ -39,5 +43,7 @@ export class AuthController {
   })
   @Post('logout')
   @UsePipes()
-  async logOut() {}
+  logOut() {
+    return ResponseService.buildResponse('User logout successfully')
+  }
 }

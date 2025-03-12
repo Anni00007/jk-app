@@ -8,6 +8,11 @@ async function bootstrap() {
     .setTitle('Backend Api')
     .setDescription('JK assignment apis')
     .setVersion('1.0')
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'Bearer',
+    })
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

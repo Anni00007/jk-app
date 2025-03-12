@@ -4,9 +4,8 @@ export enum JWTTokenType {
 
 export type JwtPayload = {
   email: string;
-  sub: string;
-  originalEmail?: string;
-  originalSub?: string;
+  sub: number;
   tokenType?: JWTTokenType;
   permissions?: Array<string>;
+  role?: string
 };
