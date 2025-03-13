@@ -37,6 +37,15 @@ model Permission {
   updatedAt   DateTime       @updatedAt
 }
 
+model Document {
+  id        Int      @id @default(autoincrement())
+  fileName  String
+  filePath  String
+  url       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum RoleEnum {
   ADMIN
   EDITOR
