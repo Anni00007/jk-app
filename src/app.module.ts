@@ -6,9 +6,10 @@ import { RoleModule } from './role/role.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './gaurds/at.gaurd';
 import { ConfigModule } from '@nestjs/config';
+import { PermissionModule } from './permissions/permission.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), AuthModule, RoleModule],
+  imports: [ConfigModule.forRoot(), AuthModule, RoleModule, PermissionModule],
   controllers: [AppController],
   providers: [
     AppService,

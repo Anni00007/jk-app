@@ -1,8 +1,16 @@
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
-import { Controller, Delete, Get, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 import { Post } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { RoleService } from './role.service';
+import { ResponseService } from 'src/response/response.service';
+import { JoiValidationPipe } from 'src/utils/joi-validation.interface';
+import {
+  UpdateRoleDto,
+  UpdateRoleParamDto,
+  updateRoleParamSchema,
+  updateRoleSchema,
+} from './role.dto';
 
 @ApiTags('Roles')
 @Controller('roles')
@@ -11,33 +19,40 @@ export class RoleController {
 
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Create Role',
-  })
-  @Post()
-  @UsePipes()
-  async createRole() {}
-
-  @ApiBearerAuth()
-  @ApiOperation({
     summary: 'Get roles',
   })
   @Get()
-  @UsePipes()
-  async getRoles() {}
+  async getRoles() {
+    const roles = await this.roleService.getRoles();
+    return ResponseService.buildResponse(roles);
+  }
 
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Update role',
   })
-  @Patch()
-  @UsePipes()
-  async updateRole() {}
+  @Patch(':id')
+  @UsePipes(new JoiValidationPipe(updateRoleParamSchema, 'param'))
+  @UsePipes(new JoiValidationPipe(updateRoleSchema, 'body'))
+  async updateRole(
+    @Param() updateRoleParamDto: UpdateRoleParamDto,
+    @Body() updateRoleDto: UpdateRoleDto,
+  ) {
+    const role = await this.roleService.updateRole(
+      updateRoleParamDto,
+      updateRoleDto,
+    );
+    return ResponseService.buildResponse(role);
+  }
 
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'delete role',
   })
-  @Delete()
-  @UsePipes()
-  async deleteRole() {}
+  @Delete(':id')
+  @UsePipes(new JoiValidationPipe(updateRoleParamSchema, 'param'))
+  async deleteRole(@Param() updateRoleParamDto: UpdateRoleParamDto) {
+    const role = await this.roleService.deleteRole(updateRoleParamDto);
+    return ResponseService.buildResponse(role);
+  }
 }
