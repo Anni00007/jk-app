@@ -3,10 +3,15 @@ import { Body, Controller } from '@nestjs/common';
 import { Post } from '@nestjs/common';
 import { UsePipes } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Public } from 'src/decorators/public.decorators';
-import { ResponseService } from 'src/response/response.service';
-import { JoiValidationPipe } from 'src/utils/joi-validation.interface';
-import { CreateUserDto, createUserSchema, LoginUserDto, loginUserSchema } from './auth.dto';
+import { Public } from 'src/common/decorators/public.decorators';
+import { ResponseService } from 'src/common/response/response.service';
+import { JoiValidationPipe } from 'src/common/utils/joi-validation.interface';
+import {
+  CreateUserDto,
+  createUserSchema,
+  LoginUserDto,
+  loginUserSchema,
+} from './auth.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -22,7 +27,9 @@ export class AuthController {
   @UsePipes(new JoiValidationPipe(createUserSchema, 'body'))
   async createUser(@Body() createUserDto: CreateUserDto) {
     const user = await this.authService.create(createUserDto);
-    return ResponseService.buildResponse(`User with '${user}' created successfully`);
+    return ResponseService.buildResponse(
+      `User with '${user}' created successfully`,
+    );
   }
 
   @Public()
@@ -30,11 +37,10 @@ export class AuthController {
     summary: 'Login for existing user and returns token',
   })
   @Post('login')
-  @UsePipes(new JoiValidationPipe(loginUserSchema, "body"))
-  async login(@Body() loginUserDto:LoginUserDto) {
-    const data = await this.authService.login(loginUserDto)
-    return  ResponseService.buildResponse(data)
-
+  @UsePipes(new JoiValidationPipe(loginUserSchema, 'body'))
+  async login(@Body() loginUserDto: LoginUserDto) {
+    const data = await this.authService.login(loginUserDto);
+    return ResponseService.buildResponse(data);
   }
 
   @ApiBearerAuth()
@@ -44,6 +50,6 @@ export class AuthController {
   @Post('logout')
   @UsePipes()
   logOut() {
-    return ResponseService.buildResponse('User logout successfully')
+    return ResponseService.buildResponse('User logout successfully');
   }
 }

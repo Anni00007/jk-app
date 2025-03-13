@@ -7,5 +7,5 @@ export type JwtPayload = {
   sub: number;
   tokenType?: JWTTokenType;
   permissions?: Array<string>;
-  role?: string
+  role?: string;
 };

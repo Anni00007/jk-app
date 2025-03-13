@@ -4,12 +4,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RoleModule } from './role/role.module';
 import { APP_GUARD } from '@nestjs/core';
-import { AtGuard } from './gaurds/at.gaurd';
+import { AtGuard } from './common/gaurds/at.gaurd';
 import { ConfigModule } from '@nestjs/config';
 import { PermissionModule } from './permissions/permission.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { DocumentModule } from './documents/document.module';
+import { RolesGuard } from './common/gaurds/role.gaurd';
 
 @Module({
   imports: [
@@ -30,6 +31,10 @@ import { DocumentModule } from './documents/document.module';
       // All APIs require auth by default. For public APIs decorate it with @Public
       provide: APP_GUARD,
       useClass: AtGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })
