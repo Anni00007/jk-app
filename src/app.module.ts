@@ -12,6 +12,7 @@ import { join } from 'path';
 import { DocumentModule } from './documents/document.module';
 import { RolesGuard } from './common/gaurds/role.gaurd';
 import { IngestionModule } from './ingestion-api/ingestion.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { IngestionModule } from './ingestion-api/ingestion.module';
     PermissionModule,
     DocumentModule,
     IngestionModule,
+    UserModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../..', 'assets'),
       serveRoot: '/assets',
