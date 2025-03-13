@@ -11,6 +11,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { DocumentModule } from './documents/document.module';
 import { RolesGuard } from './common/gaurds/role.gaurd';
+import { IngestionModule } from './ingestion-api/ingestion.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { RolesGuard } from './common/gaurds/role.gaurd';
     RoleModule,
     PermissionModule,
     DocumentModule,
+    IngestionModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../..', 'assets'),
       serveRoot: '/assets',
