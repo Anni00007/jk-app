@@ -61,7 +61,7 @@ export class UsereController {
 
   @ApiBearerAuth()
   @ApiOperation({
-    summary: 'Update Role for user',
+    summary: 'Update user',
   })
   @Put(':id')
   @Roles(RoleEnum.ADMIN)
