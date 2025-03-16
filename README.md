@@ -78,7 +78,6 @@ This backend service is built using [NestJS](https://github.com/nestjs/nest) wit
 
 3. **Document Management APIs**:
    - `POST /documents`: Upload a new document.
-   - `GET /documents`: List all documents.
    - `GET /documents/{id}`: Retrieve a specific document by ID.
    - `DELETE /documents/{id}`: Delete a document.
 
@@ -131,7 +130,7 @@ The system is structured with the following modules, each encapsulating the resp
    - **Functionality**: Manages document uploads and serves documents from the server.
    - **APIs**:
      - `POST /documents/upload`: Allows users to upload documents to the server.
-     - `GET /documents/:fileName`: Retrieves the uploaded document from the server.
+     - `GET /documents/:fileId`: Retrieves the uploaded document from the server.
    - **Storage**:
      - Documents are stored in an asset folder and served as static files.
    - **Security**:
