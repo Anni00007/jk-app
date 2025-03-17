@@ -24,6 +24,9 @@ $ copy envs from env.example
 
 ```
 
+## Use this credentials to login as Admin
+$ admin mail - admin@xyz.com
+$ Admin password - adminPassword
 
 ## Compile and run the project
 
