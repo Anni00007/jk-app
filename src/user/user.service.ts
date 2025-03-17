@@ -4,7 +4,7 @@ import {
   UpdateUserRoleBodyDto,
   UpdateUserRoleParamDto,
 } from './user.dto';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class UserService {
