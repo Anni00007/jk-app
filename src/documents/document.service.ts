@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { GetByIdParamDto } from './document.dto';
 import * as path from 'path';
 import * as fs from 'fs';
