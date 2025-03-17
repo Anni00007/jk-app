@@ -18,9 +18,11 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { DocumentService } from './document.service';
-import { FileInterceptor } from '@nestjs/platform-express';
-import * as path from 'path';
-import * as multer from 'multer';
+import {
+  FileUploadInterceptor,
+  FileValidationPipe,
+  configuredFileInterceptor,
+} from '../common/interceptors';
 import { JoiValidationPipe } from 'src/common/utils/joi-validation.interface';
 import { ResponseService } from 'src/common/response/response.service';
 import { GetByIdParamDto, getByIdParamSchema } from './document.dto';
@@ -51,29 +53,12 @@ export class DocumentController {
   })
   @Post('upload')
   @Roles(RoleEnum.ADMIN, RoleEnum.EDITOR)
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: multer.diskStorage({
-        destination: (req, file, cb) => {
-          cb(null, './assets');
-        },
-        filename: (req, file, cb) => {
-          const ext = path.extname(file.originalname);
-          const fileName = Date.now() + ext;
-          cb(null, fileName);
-        },
-      }),
-    }),
-  )
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    try {
-      if (!file) {
-        throw new BadRequestException('File is required.');
-      }
-      return this.documentService.uploadFile(file);
-    } catch (error) {
-      throw error;
-    }
+  @UseInterceptors(configuredFileInterceptor, FileUploadInterceptor)
+  async uploadFile(
+    @UploadedFile(FileValidationPipe) file: Express.Multer.File,
+  ) {
+    const document = await this.documentService.uploadFile(file);
+    return ResponseService.buildResponse(document);
   }
 
   @ApiBearerAuth()

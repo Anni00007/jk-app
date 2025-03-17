@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
+import { Injectable, Logger } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
 
 @Injectable()
 export class IngestionService {
+  private readonly logger = new Logger(IngestionService.name);
   private readonly ingestionBaseUrl = 'http://localhost:3001/ingestion';
-  constructor(private readonly httpService: HttpService) {}
+  constructor() {}
 
   async triggerIngestion() {
     try {
@@ -15,7 +15,7 @@ export class IngestionService {
 
       return response.data;
     } catch (error) {
-      console.error('Error triggering ingestion:', error);
+      this.logger.error(error);
       throw new Error('Ingestion process could not be triggered');
     }
   }
@@ -28,7 +28,7 @@ export class IngestionService {
 
       return response.data;
     } catch (error) {
-      console.error('Error fetching ingestion status:', error);
+      this.logger.error(error);
       throw new Error('Ingestion status not found');
     }
   }

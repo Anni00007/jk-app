@@ -129,13 +129,21 @@ The system is structured with the following modules, each encapsulating the resp
 ### 4. **Document Module**
    - **Functionality**: Manages document uploads and serves documents from the server.
    - **APIs**:
-     - `POST /documents/upload`: Allows users to upload documents to the server.
-     - `GET /documents/:fileId`: Retrieves the uploaded document from the server.
+     - `POST /documents`: Upload a new document.
+     - `GET /documents/{id}`: Retrieve a specific document by ID.
    - **Storage**:
      - Documents are stored in an asset folder and served as static files.
    - **Security**:
      - Documents are accessible only by authenticated and authorized users.
-   
+   - **File Upload Implementation**:
+     - Uses a two-part interceptor approach:
+       - `configuredFileInterceptor`: A configured instance of NestJS's `FileInterceptor` that handles the actual file upload, storage, and validation.
+       - `FileUploadInterceptor`: A custom interceptor that logs file upload requests and provides additional processing.
+     - File validation includes:
+       - MIME type validation (only allows specific file types)
+       - Filename pattern validation
+       - File size limits
+
 ### 5. **Ingestion Module**
    - **Functionality**: Manages the ingestion process, allowing the triggering of ingestion processes and tracking their status.
    - **APIs**:
@@ -287,6 +295,23 @@ The system is structured with the following modules, each encapsulating the resp
 - **Request Body**: Multipart Form-Data (file)
 - **Response**:
   - **201**: Created
+    ```json
+    {
+      "data": {
+        "id": 1,
+        "fileName": "1234567890.pdf",
+        "filePath": "/assets/1234567890.pdf",
+        "url": "http://localhost:3000/assets/1234567890.pdf",
+        "createdAt": "2023-01-01T00:00:00.000Z",
+        "updatedAt": "2023-01-01T00:00:00.000Z"
+      },
+      "message": "Success"
+    }
+    ```
+- **Validation**:
+  - File type must be one of: application/pdf, image/jpeg, image/png
+  - File name must match pattern: alphanumeric characters, hyphens, underscores, and spaces
+  - Maximum file size: 5MB
 - **Security**: Bearer Token Required
 
 ### **GET /document/{id}**

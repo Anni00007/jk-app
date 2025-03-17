@@ -5,10 +5,10 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CreateUserDto, LoginUserDto } from './auth.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { JwtPayload, JWTTokenType } from 'src/common/utils/jwtPayload.type';
+import { JwtPayload, JWTTokenType } from '../common/utils/jwtPayload.type';
 import { JwtService } from '@nestjs/jwt';
 import { RoleEnum, Users } from '@prisma/client';
 import * as argon from 'argon2';
